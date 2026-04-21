@@ -19,10 +19,20 @@
         <h4>로그인하세요</h4>
         <form action="./success.html">
           <div class="my-3">
-            <input type="text" class="form-control" id="id" />
+            <input
+              type="text"
+              class="form-control"
+              id="id"
+              placeholder="@를 포함한 이메일 형식으로 입력하세요."
+            />
           </div>
           <div class="my-3">
-            <input type="password" class="form-control" id="password" />
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+            />
           </div>
           <button type="submit" class="btn btn-primary">전송</button>
           <button type="button" class="btn btn-danger" id="close">닫기</button>
@@ -36,6 +46,20 @@
       <span>5</span>초 이내 구매 시 사은품 증정!
     </div>
 
+    <div class="container">
+      <div class="slide-container">
+        <div class="slide">
+          <img src="car1-1.png" alt="" />
+        </div>
+        <div class="slide"><img src="car2-1.png" alt="" /></div>
+        <div class="slide"><img src="car3-1.png" alt="" /></div>
+      </div>
+    </div>
+
+    <button class="slide-1">1</button>
+    <button class="slide-2">2</button>
+    <button class="slide-3">3</button>
+
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -47,6 +71,17 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      // 슬라이드 버튼 클릭 시 슬라이드 컨테이너의 위치를 변경하여 해당 슬라이드를 보여줌
+      $(".slide-1").on("click", function () {
+        $(".slide-container").css("transform", "translateX(0)");
+      });
+      $(".slide-2").on("click", function () {
+        $(".slide-container").css("transform", "translateX(-100vw)");
+      });
+      $(".slide-3").on("click", function () {
+        $(".slide-container").css("transform", "translateX(-200vw)");
+      });
+
       $(".login").on("click", function () {
         $(".black-bg").toggle();
         $(".white-bg").toggle();
@@ -64,11 +99,15 @@
 
         const id = document.querySelector("#id").value;
         const password = document.querySelector("#password").value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /[A-Z]/;
 
-        if (id === "" && password === "")
-          alert("아이디와 비밀번호가 입력되지 않았습니다.");
-        else if (id === "") alert("아이디가 입력되지 않았습니다.");
+        if (id === "") alert("아이디가 입력되지 않았습니다.");
+        else if (!emailRegex.test(id))
+          alert("아이디는 이메일 형식이어야 합니다.");
         else if (password === "") alert("비밀번호가 입력되지 않았습니다.");
+        else if (!passwordRegex.test(password))
+          alert("비밀번호는 대문자를 포함해야 합니다.");
         else if (password.length < 8)
           alert("비밀번호는 8자 이상이어야 합니다.");
       });

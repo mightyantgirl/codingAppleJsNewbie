@@ -13,3 +13,18 @@
   padding: 30px;
   display: none;
 }
+
+.container {
+  padding: 0;
+  width: 100vw;
+  overflow: hidden;
+}
+.slide-container {
+  width: 300vw;
+  transition: all 1s ease;
+  transform: translateX(-100vw);
+}
+.slide {
+  width: 100vw;
+  float: left;
+}
