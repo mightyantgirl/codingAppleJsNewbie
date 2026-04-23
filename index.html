@@ -13,52 +13,104 @@
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <button class="login">로그인</button>
-    <div class="black-bg">
-      <div class="white-bg">
-        <h4>로그인하세요</h4>
-        <form action="./success.html">
-          <div class="my-3">
-            <input
-              type="text"
-              class="form-control"
-              id="id"
-              placeholder="@를 포함한 이메일 형식으로 입력하세요."
-            />
-          </div>
-          <div class="my-3">
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="비밀번호를 입력하세요."
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">전송</button>
-          <button type="button" class="btn btn-danger" id="close">닫기</button>
-        </form>
-      </div>
-    </div>
+    <div class="nav">
+      <div class="navbar">
+        <div>
+          <span class="logo">logo</span>
 
-    <span class="badge bg-dark">Dark 🔄</span>
-
-    <div class="alert alert-danger">
-      <span>5</span>초 이내 구매 시 사은품 증정!
-    </div>
-
-    <div class="container">
-      <div class="slide-container">
-        <div class="slide">
-          <img src="car1-1.png" alt="" />
+          <span class="badge bg-dark">Dark 🔄</span>
         </div>
-        <div class="slide"><img src="car2-1.png" alt="" /></div>
-        <div class="slide"><img src="car3-1.png" alt="" /></div>
+        <div class="scrollLoad"></div>
       </div>
     </div>
 
-    <button class="slide-1">1</button>
-    <button class="slide-2">2</button>
-    <button class="slide-3">3</button>
+    <div class="login-container">
+      <button class="login">로그인</button>
+      <div class="black-bg">
+        <div class="white-bg">
+          <h4>로그인하세요</h4>
+          <form action="./success.html">
+            <div class="my-3">
+              <input
+                type="text"
+                class="form-control"
+                id="id"
+                placeholder="@를 포함한 이메일 형식으로 입력하세요."
+              />
+            </div>
+            <div class="my-3">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="비밀번호를 입력하세요."
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">전송</button>
+            <button type="button" class="btn btn-danger" id="close">
+              닫기
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="alert alert-danger">
+        <span>5</span>초 이내 구매 시 사은품 증정!
+      </div>
+      <div class="container">
+        <div class="slide-container">
+          <div class="slide">
+            <img src="car1-1.png" alt="" />
+          </div>
+
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, animi.
+          Quam perspiciatis corporis temporibus deleniti, cumque et rerum ullam,
+          earum quasi culpa reprehenderit nisi natus, vero obcaecati accusantium
+          dignissimos molestiae! Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Minus, animi. Quam perspiciatis corporis temporibus
+          deleniti, cumque et rerum ullam, earum quasi culpa reprehenderit nisi
+          natus, vero obcaecati accusantium dignissimos molestiae! Lorem ipsum
+          dolor sit amet consectetur adipisicing elit. Minus, animi. Quam
+          perspiciatis corporis temporibus deleniti, cumque et rerum ullam,
+          earum quasi culpa reprehenderit nisi natus, vero obcaecati accusantium
+          dignissimos molestiae! Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Minus, animi. Quam perspiciatis corporis temporibus
+          deleniti, cumque et rerum ullam, earum quasi culpa reprehenderit nisi
+          natus, vero obcaecati accusantium dignissimos molestiae! Lorem ipsum
+          dolor sit amet consectetur adipisicing elit. Minus, animi. Quam
+          perspiciatis corporis temporibus deleniti, cumque et rerum ullam,
+          earum quasi culpa reprehenderit nisi natus, vero obcaecati accusantium
+          dignissimos molestiae! Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Minus, animi. Quam perspiciatis corporis temporibus
+          deleniti, cumque et rerum ullam, earum quasi culpa reprehenderit nisi
+          natus, vero obcaecati accusantium dignissimos molestiae! v
+
+          <div class="slide"><img src="car2-1.png" alt="" /></div>
+          <div class="slide"><img src="car3-1.png" alt="" /></div>
+        </div>
+      </div>
+
+      <button class="slide-1">1</button>
+      <button class="slide-2">2</button>
+      <button class="slide-3">3</button>
+      <button class="prev">이전</button>
+      <button class="next">다음</button>
+
+      <div
+        class="lorem"
+        style="
+          width: 200px;
+          height: 100px;
+          overflow-y: scroll;
+          margin-top: 40px;
+        "
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
+        nostrum aut quae neque ex provident assumenda nemo excepturi, animi
+        error corporis. Illo error excepturi vel repellendus sint. Itaque, quos
+        voluptatem.
+      </div>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -71,6 +123,44 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      document.querySelector(".lorem").addEventListener("scroll", function () {
+        const scrollPercent =
+          (this.scrollTop / (this.scrollHeight - this.clientHeight)) * 100;
+
+        if (scrollPercent >= 99) {
+          alert("약관에 동의하시겠습니까?");
+        }
+      });
+
+      window.addEventListener("scroll", function () {
+        var nav = document.querySelector(".nav");
+        if (window.scrollY >= 100) {
+          nav.querySelector(".logo").classList.add("scrolled");
+          nav.classList.add("opacity");
+        } else {
+          nav.querySelector(".logo").classList.remove("scrolled");
+          nav.classList.remove("opacity");
+        }
+      });
+
+      var 지금사진 = 1;
+
+      $(".next").on("click", function () {
+        $(".slide-container").css(
+          "transform",
+          "translateX(-" + 지금사진 + "00vw)",
+        );
+        지금사진 += 1;
+      });
+
+      $(".prev").on("click", function () {
+        $(".slide-container").css(
+          "transform",
+          "translateX(-" + 지금사진 + "00vw)",
+        );
+        지금사진 -= 2;
+      });
+
       // 슬라이드 버튼 클릭 시 슬라이드 컨테이너의 위치를 변경하여 해당 슬라이드를 보여줌
       $(".slide-1").on("click", function () {
         $(".slide-container").css("transform", "translateX(0)");
