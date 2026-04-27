@@ -13,6 +13,25 @@
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
+    <div class="container mt-3">
+      <div class="card p-3">
+        <span class="name">상품명</span><span class="price">가격</span>
+      </div>
+    </div>
+
+    <form class="container my-5 form-group">
+      <p>상품선택</p>
+      <select class="form-select mt-2">
+        <option>모자</option>
+        <option>셔츠</option>
+      </select>
+      <select class="form-select mt-2 hide">
+        <option>95</option>
+        <option>100</option>
+        <option>105</option>
+      </select>
+    </form>
+
     <div class="container mt-5">
       <ul class="list">
         <li class="tab-button" data-id="0">Products</li>
@@ -44,6 +63,18 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      const value = document.querySelectorAll(".form-select")[0].value;
+      if (value == "셔츠") {
+        document.querySelectorAll(".form-select")[1].classList.remove("hide");
+      }
+
+      let car = {
+        name: "소나타",
+        price: [50000, 3000, 4000],
+      };
+      document.querySelector(".name").innerText = car.name;
+      document.querySelector(".price").innerText = car.price[2]; // 배열의 세 번째 요소인 4000이 가격으로 표시됩니다.
+
       // for (let i = 0; i < $(".tab-button").length; i++) {
       //   $(".tab-button")
       //     .eq(i)
