@@ -33,6 +33,20 @@
   float: left;
 }
 
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+  background-color: white;
+  height: 100px;
+  transition: all 200ms ease-in-out;
+}
+
+.login-container {
+  position: relative;
+  top: 100px;
+}
+
 .badge {
   position: absolute;
   align-items: center;
@@ -48,26 +62,13 @@
   transition: all 200ms ease-in-out;
 }
 
-.navbar {
-  position: fixed;
-  width: 100%;
-  z-index: 5;
-  background-color: white;
-  height: 100px;
-  transition: all 200ms ease-in-out;
-}
-
 .nav {
   flex-direction: column;
 }
 
-.login-container {
-  position: relative;
-  top: 10 0px;
-}
-
 .scrollLoad {
   position: relative;
+
   width: 100%;
   height: 3px;
   background-color: black;

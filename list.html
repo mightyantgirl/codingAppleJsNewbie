@@ -13,47 +13,19 @@
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <div class="card-group container">
-      <div class="card">
-        <img src="https://placehold.co/600" />
-        <div class="card-body">
-          <h5 class="title">Card title</h5>
-          <p class="price">가격 : 70000</p>
-          <button class="btn btn-danger">주문하기</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://placehold.co/600" />
-        <div class="card-body">
-          <h5 class="title">Card title</h5>
-          <p class="price">가격 : 70000</p>
-          <button class="btn btn-danger">주문하기</button>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://placehold.co/600" />
-        <div class="card-body">
-          <h5 class="title">Card title</h5>
-          <p class="price">가격 : 70000</p>
-          <button class="btn btn-danger">주문하기</button>
-        </div>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-sm-4">
+          <img src="https://placehold.co/600" class="w-100" />
+          <h5>Card title</h5>
+          <p>가격 : 70000</p>
+        </div> -->
       </div>
     </div>
-    <script>
-      let products = [
-        { id: 0, price: 70000, title: "Blossom Dress" },
-        { id: 1, price: 50000, title: "Springfield Shirt" },
-        { id: 2, price: 60000, title: "Black Monastery" },
-      ];
-
-      let cards = document.querySelectorAll(".card");
-
-      for (let i = 0; i < cards.length; i++) {
-        cards[i].querySelector(".title").innerHTML = products[i].title;
-        cards[i].querySelector(".price").innerHTML =
-          `가격:${products[i].price}`;
-      }
-    </script>
+    <div class="container">
+      <button class="btn btn-danger" type="button">더보기</button>
+      <p id="loding" class="hide">상품을 로드할 수 없습니다.</p>
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -64,5 +36,53 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      let products = [
+        { id: 0, price: 70000, title: "Blossom Dress" },
+        { id: 1, price: 50000, title: "Springfield Shirt" },
+        { id: 2, price: 60000, title: "Black Monastery" },
+      ];
+
+      //카드 생성 함수 데이터로 불러옴
+      function cardCreate(data) {
+        data.forEach((product) => {
+          let card = `
+            <div class="col-sm-4">
+              <img src="https://placehold.co/600" class="w-100">
+              <h5>${product.title}</h5>
+              <p>가격 : ${product.price}</p>
+            </div>`;
+          document.querySelector(".row").insertAdjacentHTML("beforeend", card);
+        });
+      }
+
+      cardCreate(products);
+
+      let count = 0;
+
+      document.querySelector(".btn").addEventListener("click", function () {
+        count++;
+
+        if (count == 1) {
+          $.get("https://codingapple1.github.io/js/more1.json").done(
+            function (data) {
+              cardCreate(data);
+            },
+          );
+        } else if (count == 2) {
+          $.get("https://codingapple1.github.io/js/more2.json").done(
+            function (data) {
+              cardCreate(data);
+            },
+          );
+        } else {
+          const card = document.querySelector(".btn");
+
+          card.classList.add("hide");
+          document.querySelector("#loding").classList.remove("hide");
+        }
+      });
+    </script>
   </body>
 </html>
