@@ -23,7 +23,17 @@
       </div>
     </div>
     <div class="container">
-      <button class="btn btn-danger" type="button">더보기</button>
+      <button id="price" class="btn btn-danger" type="button">
+        가격 별 정렬
+      </button>
+      <button id="title" class="btn btn-danger" type="button">
+        상품명 별 정렬
+      </button>
+      <button id="price2" class="btn btn-danger" type="button">
+        6만원 이하 정렬
+      </button>
+      <button id="more" class="btn btn-danger" type="button">더보기</button>
+
       <p id="loding" class="hide">상품을 로드할 수 없습니다.</p>
     </div>
     <script
@@ -48,20 +58,24 @@
       function cardCreate(data) {
         data.forEach((product) => {
           let card = `
-            <div class="col-sm-4">
-              <img src="https://placehold.co/600" class="w-100">
-              <h5>${product.title}</h5>
-              <p>가격 : ${product.price}</p>
-            </div>`;
+                 <div class="col-sm-4 card">
+                   <img src="https://placehold.co/600" class="w-100">
+                   <h5 class="title">${product.title}</h5>
+                   <p>가격 : ${product.price}</p>
+                   <button class="buy">구매</button>
+                 </div>`;
           document.querySelector(".row").insertAdjacentHTML("beforeend", card);
         });
       }
 
       cardCreate(products);
 
+      localStorage.setItem("이름", "희진");
+
       let count = 0;
 
-      document.querySelector(".btn").addEventListener("click", function () {
+      //더보기 버튼 이벤트시 데이터 불러오는
+      document.querySelector("#more").addEventListener("click", function () {
         count++;
 
         if (count == 1) {
@@ -82,6 +96,42 @@
           card.classList.add("hide");
           document.querySelector("#loding").classList.remove("hide");
         }
+      });
+
+      //가격 별 정렬
+      document.querySelector("#price").addEventListener("click", function () {
+        products.sort(function (a, b) {
+          return a.price - b.price; //내림차순
+        });
+
+        document.querySelector(".row").innerHTML = ""; //html 비우기
+        cardCreate(products);
+      });
+
+      // 상품명 정렬
+      $("#title").on("click", function () {
+        products.sort(function (a, b) {
+          return b.title.localeCompare(a.title); //문자열 내림차순
+        });
+
+        $(".row").html(""); //html 비우기
+        cardCreate(products);
+      });
+
+      // 6만원 이하 정렬
+
+      $("#price2").on("click", function () {
+        let price = products.filter(function (a) {
+          return a.price <= 60000;
+        });
+
+        $(".row").html(""); //html 비우기
+        cardCreate(price);
+      });
+
+      $(".buy").on("click", function () {
+        let title = $(this).siblings(".title").text(); // jQuery는 .text()
+        localStorage.setItem("cart", title);
       });
     </script>
   </body>
