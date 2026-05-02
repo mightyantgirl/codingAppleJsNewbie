@@ -129,9 +129,19 @@
         cardCreate(price);
       });
 
+      //구매 클릭 이벤트 시 로 컬스토리지에 제품명 추가
+
       $(".buy").on("click", function () {
-        let title = $(this).siblings(".title").text(); // jQuery는 .text()
-        localStorage.setItem("cart", title);
+        const title = $(this).siblings(".title").text(); //클릭한 버튼의 형제 텍스트 불러오는 변수
+        let cart = JSON.parse(localStorage.getItem("cart")); //문자열을 배열로 변환하는 변수
+
+        if (cart === null) {
+          cart = [title]; // 새 배열 생성
+        } else {
+          cart.push(title); // 기존 배열 끝에 추가
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart)); //로컬 스토리지에 배열 변환해서 추가
       });
     </script>
   </body>
