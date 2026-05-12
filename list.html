@@ -48,13 +48,14 @@
     ></script>
 
     <script>
+      // 상품 데이터 배열
       let products = [
         { id: 0, price: 70000, title: "Blossom Dress" },
         { id: 1, price: 50000, title: "Springfield Shirt" },
         { id: 2, price: 60000, title: "Black Monastery" },
       ];
 
-      //카드 생성 함수 데이터로 불러옴
+      // 상품 데이터를 받아 카드 HTML을 생성하고 .row에 추가
       function cardCreate(data) {
         data.forEach((product) => {
           let card = `
@@ -62,19 +63,27 @@
                    <img src="https://placehold.co/600" class="w-100">
                    <h5 class="title">${product.title}</h5>
                    <p>가격 : ${product.price}</p>
-                   <button class="buy">구매</button>
+                   <div class="qty-control">
+                     <button class="qty-btn decrease" type="button">-</button>
+                     <input type="number" class="qty-input" value="1" min="1" max="99">
+                     <button class="qty-btn increase" type="button">+</button>
+                    </div>
+                   <button class="buy" type="button">담기</button>
+                   </div>
                  </div>`;
           document.querySelector(".row").insertAdjacentHTML("beforeend", card);
         });
       }
 
+      // 페이지 로드 시 초기 상품 카드 렌더링
       cardCreate(products);
 
       localStorage.setItem("이름", "희진");
 
+      // 더보기 버튼 클릭 횟수 추적
       let count = 0;
 
-      //더보기 버튼 이벤트시 데이터 불러오는
+      // 더보기 버튼 클릭 시 외부 JSON에서 추가 상품 로드 (최대 2회, 이후 버튼 숨김)
       document.querySelector("#more").addEventListener("click", function () {
         count++;
 
@@ -91,57 +100,79 @@
             },
           );
         } else {
+          // 더 불러올 데이터 없음 → 버튼 숨기고 안내 문구 표시
           const card = document.querySelector(".btn");
-
           card.classList.add("hide");
           document.querySelector("#loding").classList.remove("hide");
         }
       });
 
-      //가격 별 정렬
+      // 가격 오름차순 정렬 후 카드 재렌더링
       document.querySelector("#price").addEventListener("click", function () {
         products.sort(function (a, b) {
-          return a.price - b.price; //내림차순
+          return a.price - b.price;
         });
-
-        document.querySelector(".row").innerHTML = ""; //html 비우기
+        document.querySelector(".row").innerHTML = "";
         cardCreate(products);
       });
 
-      // 상품명 정렬
+      // 상품명 내림차순(가나다 역순) 정렬 후 카드 재렌더링
       $("#title").on("click", function () {
         products.sort(function (a, b) {
-          return b.title.localeCompare(a.title); //문자열 내림차순
+          return b.title.localeCompare(a.title);
         });
-
-        $(".row").html(""); //html 비우기
+        $(".row").html("");
         cardCreate(products);
       });
 
-      // 6만원 이하 정렬
-
+      // 6만원 이하 상품만 필터링 후 카드 재렌더링
       $("#price2").on("click", function () {
         let price = products.filter(function (a) {
           return a.price <= 60000;
         });
-
-        $(".row").html(""); //html 비우기
+        $(".row").html("");
         cardCreate(price);
       });
 
-      //구매 클릭 이벤트 시 로 컬스토리지에 제품명 추가
+      // 수량 감소 버튼 클릭 시 해당 카드의 수량 1 감소 (최솟값 1)
+      // 이벤트 위임 방식 — 동적으로 추가된 카드에도 동작
+      $(document).on("click", ".decrease", function () {
+        let qtyInput = $(this).siblings(".qty-input");
+        let currentValue = parseInt(qtyInput.val());
+        if (currentValue > 1) {
+          qtyInput.val(currentValue - 1);
+        }
+      });
 
-      $(".buy").on("click", function () {
-        const title = $(this).siblings(".title").text(); //클릭한 버튼의 형제 텍스트 불러오는 변수
-        let cart = JSON.parse(localStorage.getItem("cart")); //문자열을 배열로 변환하는 변수
+      // 수량 증가 버튼 클릭 시 해당 카드의 수량 1 증가 (최댓값 99)
+      // 이벤트 위임 방식 — 동적으로 추가된 카드에도 동작
+      $(document).on("click", ".increase", function () {
+        let qtyInput = $(this).siblings(".qty-input");
+        let currentValue = parseInt(qtyInput.val());
+        if (currentValue < 99) {
+          qtyInput.val(currentValue + 1);
+        }
+      });
 
-        if (cart === null) {
-          cart = [title]; // 새 배열 생성
+      // 담기 버튼 클릭 시 해당 카드의 상품명과 수량을 로컬스토리지 cart 배열에 저장
+      $(document).on("click", ".buy", function () {
+        // 클릭한 카드의 상품명
+        const title = $(this).siblings(".title").text();
+        // 클릭한 카드의 수량 입력값 ($(this) 기준으로 탐색)
+        const qty = $(this).siblings(".qty-control").find(".qty-input").val();
+        // 로컬스토리지에서 cart 배열 가져오기 (없으면 null)
+
+        let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+        const last = cart[cart.length - 1];
+
+        // 마지막 항목과 title 같으면 수량 합산, 다르면 새로 추가
+        if (last && last.title === title) {
+          last.qty = parseInt(last.qty) + parseInt(qty);
         } else {
-          cart.push(title); // 기존 배열 끝에 추가
+          cart.push({ title, qty });
         }
 
-        localStorage.setItem("cart", JSON.stringify(cart)); //로컬 스토리지에 배열 변환해서 추가
+        localStorage.setItem("cart", JSON.stringify(cart));
       });
     </script>
   </body>
